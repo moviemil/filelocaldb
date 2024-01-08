@@ -25,7 +25,7 @@ if ($response === false) {
     } else {
         $tipoConteudo = mime_content_type($conteudo);
         header("Content-type: $tipoConteudo");
-        echo $conteudo;
+        readfile($conteudo);
     }
 }
 
