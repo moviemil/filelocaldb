@@ -16,12 +16,13 @@ if ($response === false) {
 
     if (isset($_GET['d'])) {
         $dadosBase64 = explode(',', $conteudo, 2)[1];
-        preg_match('/^data:([a-zA-Z\/]+);base64/', $conteudo, $matches);
-        $tipoConteudo = isset($matches[1]) ? $matches[1] : 'application/octet-stream';
-        header("Content-type: $tipoConteudo");
-        $extensao = explode('/', $tipoConteudo)[1];
-        header("Content-Disposition: attachment; filename=$title.$extensao");
-        echo base64_decode($dadosBase64);
+preg_match('/^data:[^\/]+\/([a-zA-Z]+);base64/', $conteudo, $matches);
+$tipoConteudo = isset($matches[1]) ? $matches[1] : 'octet-stream';
+$headerContentType = "Content-type: $tipoConteudo";
+header($headerContentType);
+$extensao = $tipoConteudo;
+header("Content-Disposition: attachment; filename=$title.$extensao");
+echo base64_decode($dadosBase64);
     } else {
         $tipoConteudo = mime_content_type($conteudo);
         header("Content-type: $tipoConteudo");
